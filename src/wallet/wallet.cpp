@@ -154,7 +154,6 @@ bool CWallet::AddKeyPubKey(const CKey& secret, const CPubKey &pubkey)
 }
 
 bool CWallet::AddCryptedKey(const CPubKey &vchPubKey, const vector<unsigned char> &vchCryptedSecret){
-
     if (!CCryptoKeyStore::AddCryptedKey(vchPubKey, vchCryptedSecret))
         return false;
     if (!fFileBacked)
@@ -248,8 +247,7 @@ bool CWallet::Unlock(const SecureString& strWalletPassphrase, bool anonymizeOnly
         return true;
     }
 
-    strWalletPassphraseFinal = strWalletPassphrase;
-    
+    strWalletPassphraseFinal = strWalletPassphrase;    
 
     CCrypter crypter;
     CKeyingMaterial vMasterKey;
@@ -274,8 +272,7 @@ bool CWallet::Unlock(const SecureString& strWalletPassphrase, bool anonymizeOnly
 bool CWallet::ChangeWalletPassphrase(const SecureString& strOldWalletPassphrase, const SecureString& strNewWalletPassphrase)
 {
     bool fWasLocked = IsLocked();
-    SecureString strOldWalletPassphraseFinal = strOldWalletPassphrase;
-    
+    SecureString strOldWalletPassphraseFinal = strOldWalletPassphrase;    
     {
         LOCK(cs_wallet);
         Lock();
@@ -662,7 +659,6 @@ bool CWallet::EncryptWallet(const SecureString& strWalletPassphrase)
         // Need to completely rewrite the wallet file; if we don't, bdb might keep
         // bits of the unencrypted private key in slack space in the database file.
         CDB::Rewrite(strWalletFile);
-
     }
     NotifyStatusChanged(this);
 
@@ -1450,7 +1446,6 @@ void CWalletTx::GetAmounts(list<COutputEntry>& listReceived, list<COutputEntry>&
         if (fIsMine & filter)
             listReceived.push_back(output);
     }
-
 }
 
 void CWalletTx::GetAccountAmounts(const string& strAccount, CAmount& nReceived,
@@ -2164,7 +2159,6 @@ void CWallet::AvailableCoins(vector<COutput>& vCoins, bool fOnlyConfirmed, const
                         COutput outpoint(pcoin, i, nDepth, ((mine & ISMINE_SPENDABLE) != ISMINE_NO) || (coinControl && coinControl->fAllowWatchOnly && (mine & ISMINE_WATCH_SOLVABLE) != ISMINE_NO));
                         vCoins.push_back(outpoint);
                 }
-
             }
         }
     }
@@ -3188,7 +3182,6 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     int64_t nCredit = 0;
     CScript scriptPubKeyKernel;
     BOOST_FOREACH(const PAIRTYPE(const CWalletTx*, unsigned int)& pcoin, setCoins){
-
         static int nMaxStakeSearchInterval = 60;
         bool fKernelFound = false;
         for (unsigned int n=0; n<min(nSearchInterval,(int64_t)nMaxStakeSearchInterval) && !fKernelFound && pindexPrev == pindexBestHeader; n++){
@@ -3361,7 +3354,6 @@ uint64_t CWallet::GetStakeWeight() const
     {
         if (pcoin.first->GetDepthInMainChain() >= STAKE_MIN_CONFIRMATIONS)
             nWeight += pcoin.first->vout[pcoin.second].nValue;
-
     }
     return nWeight;
 }
