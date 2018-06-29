@@ -1,4 +1,4 @@
-Kore Core 0.12.1
+Kore Core 0.12.6
 =====================
 
 Setup
